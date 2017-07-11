@@ -1,0 +1,20 @@
+.counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.counter-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 5rem;
+    height: 10rem;
+    background-color: #dfdfdf;
+    border: 1px solid #9a9a9a;
+    margin-right: 0.5rem;
+
+    font-family: Courier New, open-sans;
+    font-size: 2rem;
+}

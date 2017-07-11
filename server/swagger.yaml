@@ -1,0 +1,143 @@
+swagger: '2.0'
+info:
+  description: An API for our Serverless Counter Application
+  version: 1.0.0
+  title: Serverless Counter
+schemes:
+  - http
+paths:
+  /increment:
+    options:
+      description: |
+        Pass CORS headers back to fetch API on preflight request.
+      responses:
+        '200':
+          description: An empty response with CORS headers.
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+        '400':
+          description: An empty response with CORS headers.
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+    post:
+      summary: Increment Counter by One
+      description: |
+        Pass current value and receive current value incremented by one back
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Current value
+          required: true
+          schema:
+            $ref: '#/definitions/CurrentValue'
+      responses:
+        '200':
+          description: A response containing the current value
+          schema:
+            $ref: '#/definitions/CurrentValue'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+        '400':
+          description: An Error response with CORS headers.
+          schema:
+            $ref: '#/definitions/Error'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+  /decrement:
+    options:
+      description: |
+        Pass CORS headers back to fetch API on preflight request.
+      responses:
+        '200':
+          description: An empty response with CORS headers.
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+        '400':
+          description: An empty response with CORS headers.
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+    post:
+      summary: Decrement Counter by One
+      description: |
+        Pass current value and receive current value incremented by one back
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Current value
+          required: true
+          schema:
+            $ref: '#/definitions/CurrentValue'
+      responses:
+        '200':
+          description: A response containing the current value
+          schema:
+            $ref: '#/definitions/CurrentValue'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+        '400':
+          description: An Error response with CORS headers.
+          schema:
+            $ref: '#/definitions/Error'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Headers:
+              type: string
+definitions:
+  CurrentValue:
+    type: object
+    properties:
+      currentValue:
+        type: number
+        description: |
+          "Current value integer representing the state of the counter"
+  Error:
+    type: object
+    properties:
+      error:
+        type: string
+        description: |
+          "Error message passed from the lambda function"
