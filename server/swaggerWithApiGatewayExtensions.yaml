@@ -3,7 +3,7 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: "Serverless Counter"
-host: "8g947decq3.execute-api.us-east-1.amazonaws.com"
+host: "imulpt5ulj.execute-api.us-east-1.amazonaws.com"
 basePath: "/test"
 schemes:
 - "https"
@@ -51,6 +51,9 @@ paths:
               method.response.header.Access-Control-Allow-Methods: "'OPTIONS, POST'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
+            responseTemplates:
+              application/json: "#set($inputRoot = $input.path('$'))\n{\n  \"currentValue\"\
+                \ : $inputRoot\n}"
           Error.*:
             statusCode: "400"
             responseParameters:
@@ -67,8 +70,6 @@ paths:
         type: "aws"
     options:
       consumes:
-      - "application/json"
-      produces:
       - "application/json"
       responses:
         200:
@@ -150,6 +151,9 @@ paths:
               method.response.header.Access-Control-Allow-Methods: "'OPTIONS, POST'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
+            responseTemplates:
+              application/json: "#set($inputRoot = $input.path('$'))\n{\n  \"currentValue\"\
+                \ : $inputRoot\n}"
           Error.*:
             statusCode: "400"
             responseParameters:
@@ -166,8 +170,6 @@ paths:
         type: "aws"
     options:
       consumes:
-      - "application/json"
-      produces:
       - "application/json"
       responses:
         200:
