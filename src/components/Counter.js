@@ -62,7 +62,7 @@ class CounterComponent extends Component {
       if (err) {
         return alert(resp.error);
       } else {
-        return resp;
+        return resp.currentValue;
       }
     }).catch(err => {
       console.log(err);
