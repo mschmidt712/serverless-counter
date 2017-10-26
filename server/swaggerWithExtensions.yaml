@@ -3,28 +3,25 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: "Serverless Counter"
-host: "imulpt5ulj.execute-api.us-east-1.amazonaws.com"
+host: "nz3mljws2h.execute-api.us-east-1.amazonaws.com"
 basePath: "/test"
 schemes:
 - "https"
 paths:
   /decrement:
-    post:
+    get:
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - in: "body"
-        name: "CurrentValue"
+      - name: "currentVal"
+        in: "query"
         required: true
-        schema:
-          $ref: "#/definitions/CurrentValue"
+        type: "string"
       responses:
         200:
           description: "200 response"
-          schema:
-            $ref: "#/definitions/CurrentValue"
           headers:
             Access-Control-Allow-Origin:
               type: "string"
@@ -43,12 +40,14 @@ paths:
               type: "string"
             Access-Control-Allow-Headers:
               type: "string"
+      x-amazon-apigateway-request-validator: "Validate body, query string parameters,\
+        \ and headers"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
             responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'OPTIONS, POST'"
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS, GET'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
             responseTemplates:
@@ -57,12 +56,15 @@ paths:
           Error.*:
             statusCode: "400"
             responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'OPTIONS, POST'"
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS, GET'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
             responseTemplates:
-              application/json: "{\n  \"error\" : \"$input.path('errorMessage')\"\n\
-                }"
+              application/json: "#set($err = $input.path('errorMessage'))\n{\n  \"\
+                error\" : \"$err\"\n}"
+        requestTemplates:
+          application/json: "\n{\n  \"currentValue\" : \"$input.params('currentVal')\"\
+            \n}"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:624386365001:function:decrementCounter/invocations"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
@@ -95,13 +97,13 @@ paths:
           default:
             statusCode: "200"
             responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'OPTIONS, POST'"
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS, GET'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
           Error:*:
             statusCode: "400"
             responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'OPTIONS, POST'"
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS, GET'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
@@ -109,17 +111,16 @@ paths:
         passthroughBehavior: "when_no_match"
         type: "mock"
   /increment:
-    post:
+    get:
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - in: "body"
-        name: "CurrentValue"
+      - name: "currentVal"
+        in: "query"
         required: true
-        schema:
-          $ref: "#/definitions/CurrentValue"
+        type: "string"
       responses:
         200:
           description: "200 response"
@@ -143,12 +144,14 @@ paths:
               type: "string"
             Access-Control-Allow-Headers:
               type: "string"
+      x-amazon-apigateway-request-validator: "Validate body, query string parameters,\
+        \ and headers"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
             responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'OPTIONS, POST'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
             responseTemplates:
@@ -157,14 +160,17 @@ paths:
           Error.*:
             statusCode: "400"
             responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Methods: "'GET, OPTIONS'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
             responseTemplates:
-              application/json: "{\n  \"error\" : \"$input.path('errorMessage')\"\n\
-                }"
+              application/json: "#set($err = $input.path('errorMessage'))\n{\n  \"\
+                error\" : \"$err\"\n}"
+        requestTemplates:
+          application/json: "\n{\n  \"currentValue\" : \"$input.params('currentVal')\"\
+            \n}"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:624386365001:function:incrementCounter/invocations"
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
@@ -195,13 +201,13 @@ paths:
           default:
             statusCode: "200"
             responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,GET'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
           Error.*:
             statusCode: "400"
             responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'OPTIONS, POST'"
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS, GET'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
@@ -222,3 +228,7 @@ definitions:
       error:
         type: "string"
         description: "\"Error message passed from the lambda function\"\n"
+x-amazon-apigateway-request-validators:
+  Validate body, query string parameters, and headers:
+    validateRequestParameters: true
+    validateRequestBody: true
