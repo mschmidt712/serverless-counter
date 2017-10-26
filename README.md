@@ -11,7 +11,9 @@ To build and start the UI, run `npm start` in your terminal
 ## Integrating the Back-End
 Build one lambda function based on `decrementCounterLambda.js` and one lambda function based on `incrementCounterLambda.js`
 
-Generate and API Gateway API based on the `swaggerWithApiGatewayExtensions.yaml` to save yourself some configuration time. You can also build a similar API with the `swagger.yaml` but don't forget to assign values to each of your CORS headers.
+Generate your API Gateway based on the `swaggerWithApiGatewayExtensions.yaml` to save yourself some configuration time. Make sure to change the lambda URI for the increment and decrement pathway to your own path. If the function names are `incrementCounter` and `decrementCounter` you will only need to update the 12 digit account number to match your account (can be found in AWS account settings).
+
+You can also build a simpler API with the `swagger.yaml` but don't forget to assign values to each of your [CORS headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
 
 Assign your lambda functions to the appropriate routes in the API gateway.
 
