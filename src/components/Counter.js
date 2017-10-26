@@ -43,15 +43,14 @@ class CounterComponent extends Component {
     });
   }
 
-  fetchCurrentVal (route, body) {
+  fetchCurrentVal (route, currentVal) {
     var headers = new Headers();
     headers.append("Content-Type", "application/json");
     let err = false;
 
-    return fetch(`${config.baseUrl}/${route}`, {
-      method: 'POST',
-      headers,
-      body
+    return fetch(`${config.baseUrl}/${route}?currentVal=${currentVal}`, {
+      method: 'GET',
+      headers
     }).then(fetchResp => {
       if (fetchResp.status !== 200) {
         err = true;
@@ -70,11 +69,7 @@ class CounterComponent extends Component {
   }
 
   incrementCount () {
-    const body = JSON.stringify({
-      currentValue: this.state.currentVal
-    });
-
-    this.fetchCurrentVal('increment', body).then(newVal => {
+    this.fetchCurrentVal('increment', this.state.currentVal).then(newVal => {
       if (newVal !== undefined) {
         this.convertNumberToDigits(newVal);
       }
@@ -82,11 +77,7 @@ class CounterComponent extends Component {
   }
 
   decrementCount () {
-    const body = JSON.stringify({
-      currentValue: this.state.currentVal
-    });
-
-    this.fetchCurrentVal('decrement', body).then(newVal => {
+    this.fetchCurrentVal('decrement', this.state.currentVal).then(newVal => {
       if (newVal !== undefined) {
         this.convertNumberToDigits(newVal);
       }
